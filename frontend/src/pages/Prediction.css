@@ -1,0 +1,154 @@
+.prediction-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6fb;
+}
+
+.prediction-card {
+  width: 100%;
+  max-width: 550px;
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.prediction-card h1 {
+  text-align: center;
+  color: #b91c1c;
+  font-size: 30px;
+}
+
+.prediction-card h2 {
+  text-align: center;
+  margin-top: 12px;
+  color: #1e293b;
+}
+
+.prediction-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin: 12px 0 30px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 9px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.prediction-btn {
+  width: 100%;
+  padding: 14px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.prediction-btn:hover {
+  background: #991b1b;
+}
+
+.prediction-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.prediction-result {
+  margin-top: 25px;
+  padding: 20px;
+  background: #fff1f2;
+  border-left: 5px solid #dc2626;
+  border-radius: 10px;
+}
+
+.prediction-result h3 {
+  color: #991b1b;
+  margin-bottom: 15px;
+}
+
+.prediction-result p {
+  margin: 10px 0;
+}
+
+.prediction-result small {
+  display: block;
+  margin-top: 12px;
+  color: #64748b;
+}
+
+.prediction-error {
+  margin-top: 20px;
+  padding: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 8px;
+}
+
+.prediction-info {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.prediction-info h3 {
+  margin-bottom: 15px;
+  color: #334155;
+}
+
+.blood-group-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.blood-group-list span {
+  padding: 9px 17px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.prediction-disclaimer {
+  margin-top: 25px;
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .prediction-card {
+    padding: 22px;
+  }
+}

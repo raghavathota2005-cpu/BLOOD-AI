@@ -1,0 +1,10 @@
+{
+    "A+": {"slope": 0.5, "intercept": 15},
+    "A-": {"slope": 0.3, "intercept": 5},
+    "B+": {"slope": 0.4, "intercept": 12},
+    "B-": {"slope": 0.2, "intercept": 4},
+    "AB+": {"slope": 0.3, "intercept": 8},
+    "AB-": {"slope": 0.1, "intercept": 3},
+    "O+": {"slope": 0.6, "intercept": 18},
+    "O-": {"slope": 0.2, "intercept": 6}
+}

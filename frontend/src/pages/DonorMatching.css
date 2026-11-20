@@ -1,0 +1,267 @@
+/* BLOOD AI - DONOR MATCHING PAGE */
+
+.matching-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fff1f2, #f8fafc);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* HEADER */
+
+.matching-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.matching-header h1 {
+  color: #dc2626;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.matching-header p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+/* MAIN CONTAINER */
+
+.matching-container {
+  width: 100%;
+  max-width: 950px;
+  margin: auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #fee2e2;
+  box-shadow: 0 12px 40px rgba(127, 29, 29, 0.09);
+}
+
+.matching-container > h2 {
+  color: #991b1b;
+  font-size: 29px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.matching-description {
+  color: #64748b;
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 35px;
+  line-height: 1.6;
+}
+
+/* SEARCH FORM */
+
+.matching-form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.matching-form label {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.matching-form select,
+.matching-form input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.matching-form select:focus,
+.matching-form input:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+}
+
+.matching-form button {
+  width: 100%;
+  height: 52px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 9px;
+  background: #dc2626;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  transition: 0.3s ease;
+}
+
+.matching-form button:hover:not(:disabled) {
+  background: #991b1b;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(220, 38, 38, 0.2);
+}
+
+.matching-form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ERRORS */
+
+.matching-error {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 14px;
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* RESULTS */
+
+.matching-results {
+  margin-top: 45px;
+  padding-top: 30px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.matching-results > h2 {
+  color: #991b1b;
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.result-count {
+  text-align: center;
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+.no-donors {
+  padding: 25px;
+  text-align: center;
+  background: #fff1f2;
+  color: #991b1b;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* DONOR CARDS */
+
+.donor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.donor-card {
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+  transition: 0.3s ease;
+}
+
+.donor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.12);
+}
+
+.blood-icon {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.donor-card h3 {
+  color: #1e293b;
+  font-size: 21px;
+  margin-bottom: 15px;
+}
+
+.donor-card p {
+  color: #64748b;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.donor-card strong {
+  color: #334155;
+}
+
+.verification-status {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* DISCLAIMER */
+
+.matching-note {
+  margin-top: 35px;
+  padding: 16px;
+  border-radius: 9px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 650px) {
+  .matching-page {
+    padding: 25px 12px;
+  }
+
+  .matching-header h1 {
+    font-size: 27px;
+  }
+
+  .matching-container {
+    padding: 25px 17px;
+    border-radius: 14px;
+  }
+
+  .matching-container > h2 {
+    font-size: 24px;
+  }
+
+  .donor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .donor-card {
+    padding: 20px;
+  }
+}
