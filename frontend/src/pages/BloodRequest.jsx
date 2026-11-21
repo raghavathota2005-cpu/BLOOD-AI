@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import API_URL from "../api";
 
 function BloodRequest() {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     patient_name: "",
     blood_group: "O+",
     units_required: 1,
@@ -10,7 +11,10 @@ function BloodRequest() {
     contact_number: "",
     priority: "normal",
     status: "pending"
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,44 +25,37 @@ function BloodRequest() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/requests/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            ...formData,
-            units_required: Number(formData.units_required)
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/requests/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ...formData,
+          units_required: Number(formData.units_required)
+        })
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(JSON.stringify(data.detail));
-        return;
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : JSON.stringify(data.detail || "Request failed")
+        );
       }
 
       alert("Blood Request Submitted Successfully!");
-
-      setFormData({
-        patient_name: "",
-        blood_group: "O+",
-        units_required: 1,
-        hospital_name: "",
-        location: "",
-        contact_number: "",
-        priority: "normal",
-        status: "pending"
-      });
+      setFormData(initialFormData);
 
     } catch (error) {
-      alert("Cannot connect to backend!");
+      alert(error.message || "Cannot connect to backend!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +67,6 @@ function BloodRequest() {
         <p>Submit your blood requirement details</p>
 
         <form onSubmit={handleSubmit}>
-
           <div className="form-group">
             <label>Patient Name</label>
             <input
@@ -155,10 +151,13 @@ function BloodRequest() {
             </select>
           </div>
 
-          <button type="submit" className="register-btn">
-            Submit Blood Request
+          <button
+            type="submit"
+            className="register-btn"
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Submit Blood Request"}
           </button>
-
         </form>
       </div>
     </div>

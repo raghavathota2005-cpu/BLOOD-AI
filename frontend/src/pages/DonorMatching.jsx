@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../api";
 import "./DonorMatching.css";
 
 function DonorMatching() {
@@ -24,7 +25,7 @@ function DonorMatching() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/donors/match?blood_group=${encodeURIComponent(
+        `${API_URL}/donors/match?blood_group=${encodeURIComponent(
           bloodGroup
         )}&location=${encodeURIComponent(location.trim())}`
       );
@@ -39,7 +40,7 @@ function DonorMatching() {
       setSearched(true);
 
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Unable to connect to backend.");
     } finally {
       setLoading(false);
     }
@@ -66,14 +67,13 @@ function DonorMatching() {
             value={bloodGroup}
             onChange={(e) => setBloodGroup(e.target.value)}
           >
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
+            {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(
+              (group) => (
+                <option key={group} value={group}>
+                  {group}
+                </option>
+              )
+            )}
           </select>
 
           <label>Location</label>

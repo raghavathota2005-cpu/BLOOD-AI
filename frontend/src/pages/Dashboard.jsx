@@ -6,6 +6,7 @@ import {
   Legend
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import API_URL from "../api";
 import "./Dashboard.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -15,15 +16,23 @@ function Dashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/dashboard")
-      .then((response) => {
+    const fetchDashboard = async () => {
+      try {
+        const response = await fetch(`${API_URL}/dashboard`);
+
+        const result = await response.json();
+
         if (!response.ok) {
-          throw new Error("Unable to load dashboard");
+          throw new Error(result.detail || "Unable to load dashboard");
         }
-        return response.json();
-      })
-      .then((result) => setData(result))
-      .catch((error) => setError(error.message));
+
+        setData(result);
+      } catch (err) {
+        setError(err.message || "Unable to connect to backend");
+      }
+    };
+
+    fetchDashboard();
   }, []);
 
   if (error) {
@@ -34,12 +43,15 @@ function Dashboard() {
     return <h2 className="dashboard-loading">Loading Dashboard...</h2>;
   }
 
+  const recentDonors = data.recent_donors || [];
+  const recentRequests = data.recent_requests || [];
+
   const bloodGroups = [
     "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"
   ];
 
   const bloodGroupCounts = bloodGroups.map((group) =>
-    data.recent_donors.filter(
+    recentDonors.filter(
       (donor) => donor.blood_group?.toUpperCase() === group
     ).length
   );
@@ -91,6 +103,7 @@ function Dashboard() {
 
       <div className="chart-section">
         <h2>Blood Group Distribution</h2>
+
         <div className="chart-box">
           <Doughnut
             data={chartData}
@@ -105,6 +118,7 @@ function Dashboard() {
             }}
           />
         </div>
+
         <p className="chart-note">
           Distribution is calculated from the recent donor records returned by the API.
         </p>
@@ -124,7 +138,7 @@ function Dashboard() {
           </thead>
 
           <tbody>
-            {data.recent_donors.map((donor) => (
+            {recentDonors.map((donor) => (
               <tr key={donor._id}>
                 <td>{donor.full_name}</td>
                 <td>{donor.blood_group}</td>
@@ -151,7 +165,7 @@ function Dashboard() {
           </thead>
 
           <tbody>
-            {data.recent_requests.map((request) => (
+            {recentRequests.map((request) => (
               <tr key={request._id}>
                 <td>{request.patient_name}</td>
                 <td>{request.blood_group}</td>

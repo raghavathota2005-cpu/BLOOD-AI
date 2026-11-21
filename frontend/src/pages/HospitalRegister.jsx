@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import API_URL from "../api";
 
 function HospitalRegister() {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     hospital_name: "",
     address: "",
     city: "",
     phone: "",
     email: "",
     available_blood_groups: []
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [loading, setLoading] = useState(false);
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -28,45 +32,42 @@ function HospitalRegister() {
       ...previous,
       available_blood_groups: checked
         ? [...previous.available_blood_groups, value]
-        : previous.available_blood_groups.filter((group) => group !== value)
+        : previous.available_blood_groups.filter(
+            (group) => group !== value
+          )
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/hospitals/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(formData)
-        }
-      );
+      const response = await fetch(`${API_URL}/hospitals/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(JSON.stringify(data.detail));
-        return;
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : JSON.stringify(data.detail || "Registration failed")
+        );
       }
 
       alert("Hospital Registered Successfully! Verification Pending.");
-
-      setFormData({
-        hospital_name: "",
-        address: "",
-        city: "",
-        phone: "",
-        email: "",
-        available_blood_groups: []
-      });
+      setFormData(initialFormData);
 
     } catch (error) {
-      alert("Cannot connect to backend!");
+      alert(error.message || "Cannot connect to backend!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,7 +79,6 @@ function HospitalRegister() {
         <p>Connect your hospital with BLOOD AI</p>
 
         <form onSubmit={handleSubmit}>
-
           <div className="form-group">
             <label>Hospital Name</label>
             <input
@@ -154,10 +154,13 @@ function HospitalRegister() {
             </div>
           </div>
 
-          <button type="submit" className="register-btn">
-            Register Hospital
+          <button
+            type="submit"
+            className="register-btn"
+            disabled={loading}
+          >
+            {loading ? "Registering..." : "Register Hospital"}
           </button>
-
         </form>
       </div>
     </div>

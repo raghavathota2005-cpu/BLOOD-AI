@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API_URL from "../api";
 import "./Prediction.css";
 
 function Prediction() {
@@ -21,13 +22,19 @@ function Prediction() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/prediction/demand?blood_group=${encodeURIComponent(bloodGroup)}&day=${day}`
+        `${API_URL}/prediction/demand?blood_group=${encodeURIComponent(
+          bloodGroup
+        )}&day=${encodeURIComponent(day)}`
       );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.detail || "Prediction failed");
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : "Prediction failed"
+        );
       }
 
       setResult(data.prediction);
@@ -51,7 +58,6 @@ function Prediction() {
         </p>
 
         <form onSubmit={handlePrediction}>
-
           <div className="form-group">
             <label>Select Blood Group</label>
 
@@ -87,7 +93,6 @@ function Prediction() {
           >
             {loading ? "Predicting..." : "Predict Blood Demand"}
           </button>
-
         </form>
 
         {error && (

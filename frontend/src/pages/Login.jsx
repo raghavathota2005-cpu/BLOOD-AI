@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API_URL from "../api";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,7 +13,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email.trim() || !password) {
       alert("Please enter username and password");
       return;
     }
@@ -19,19 +21,16 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/admin/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: email,
-            password: password
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/admin/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: email.trim(),
+          password: password
+        })
+      });
 
       const data = await response.json();
 
@@ -42,11 +41,10 @@ function Login() {
       localStorage.setItem("adminToken", data.access_token);
 
       alert("Admin Login Successful!");
-
       navigate("/admin-dashboard");
 
     } catch (error) {
-      alert(error.message);
+      alert(error.message || "Unable to connect to server");
     } finally {
       setLoading(false);
     }
@@ -70,6 +68,7 @@ function Login() {
             placeholder="Enter admin username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <label>Password</label>
@@ -79,6 +78,7 @@ function Login() {
             placeholder="Enter admin password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <button type="submit" disabled={loading}>

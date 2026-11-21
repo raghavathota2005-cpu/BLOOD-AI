@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../api";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
@@ -10,20 +11,20 @@ function AdminDashboard() {
 
   const fetchDashboard = async () => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/admin/dashboard",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      setError("");
 
-      if (!response.ok) {
-        throw new Error("Unable to load dashboard");
-      }
+      const response = await fetch(`${API_URL}/admin/dashboard`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
       const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.detail || "Unable to load dashboard");
+      }
+
       setData(result);
     } catch (err) {
       setError(err.message);
@@ -46,7 +47,7 @@ function AdminDashboard() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/admin/hospitals/${hospitalId}/${action}`,
+        `${API_URL}/admin/hospitals/${hospitalId}/${action}`,
         {
           method: "PUT",
           headers: {

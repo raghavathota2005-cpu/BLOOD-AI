@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import API_URL from "./api";
 
 import Login from "./pages/Login";
 import RegisterDonor from "./pages/RegisterDonor";
@@ -16,8 +17,13 @@ function Home() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/dashboard")
-      .then((response) => response.json())
+    fetch(`${API_URL}/dashboard`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to load dashboard statistics");
+        }
+        return response.json();
+      })
       .then((result) => setData(result))
       .catch((error) => console.log("Dashboard error:", error));
   }, []);
@@ -142,25 +148,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<Home />} />
-
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<RegisterDonor />} />
-
         <Route path="/matching" element={<DonorMatching />} />
-
         <Route path="/request" element={<BloodRequest />} />
-
         <Route path="/hospital" element={<HospitalRegister />} />
-
         <Route path="/prediction" element={<Prediction />} />
-
         <Route path="/dashboard" element={<Dashboard />} />
-
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
       </Routes>
     </BrowserRouter>
   );
